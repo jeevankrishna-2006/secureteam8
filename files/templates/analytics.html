@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureShare - Analytics</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            margin: 0;
+            padding: 30px;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+        }
+
+        .top-links {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .top-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 16px;
+            margin: 0 6px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: 0.2s ease-in-out;
+        }
+
+        .top-links a:hover {
+            transform: scale(1.03);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .export-btn {
+            background: linear-gradient(to right, #00c853, #64dd17) !important;
+            border: none !important;
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(to right, #2563eb, #38bdf8) !important;
+            border: none !important;
+        }
+
+        .logout-btn {
+            background: linear-gradient(to right, #ff512f, #dd2476) !important;
+            border: none !important;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            width: 240px;
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0px 0px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            text-align: center;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            font-size: 15px;
+            color: #cbd5e1;
+            font-weight: bold;
+        }
+
+        .stat-box p {
+            margin-top: 12px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0px 0px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.35);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .token-box {
+            max-width: 140px;
+            word-break: break-all;
+            font-size: 12px;
+            color: #e2e8f0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="text-align:center;">
+        <div class="badge">📊 SecureShare Monitoring Dashboard</div>
+    </div>
+
+    <h2>Download Analytics</h2>
+    <p class="subtitle">Monitor total uploads, downloads and access logs</p>
+
+    <div class="top-links">
+        <a class="dashboard-btn" href="/dashboard/">📂 Dashboard</a>
+        <a class="export-btn" href="/export-logs/">⬇ Export Logs CSV</a>
+        <a class="logout-btn" href="/logout/">🚪 Logout</a>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-box">
+            <h3>Total Files Uploaded</h3>
+            <p>{{ total_files }}</p>
+        </div>
+
+        <div class="stat-box">
+            <h3>Total Downloads</h3>
+            <p>{{ total_downloads }}</p>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Email</th>
+            <th>File Token</th>
+            <th>IP Address</th>
+            <th>Downloaded At</th>
+        </tr>
+
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.email }}</td>
+            <td class="token-box">{{ log.file_token }}</td>
+            <td>{{ log.ip_address }}</td>
+            <td>{{ log.downloaded_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="footer">
+        © 2026 SecureShare | Secure Download Analytics & Monitoring System
+    </div>
+
+</body>
+</html>

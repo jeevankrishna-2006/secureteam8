@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: secureshare
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn secure_share.wsgi:application

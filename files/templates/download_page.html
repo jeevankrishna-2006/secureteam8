@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureShare - Download</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 35px;
+            width: 460px;
+            border-radius: 18px;
+            box-shadow: 0px 0px 30px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 8px;
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 22px;
+        }
+
+        .file-box {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .timer {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.25);
+            font-size: 14px;
+            font-weight: bold;
+            color: #facc15;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 22px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(to right, #ff512f, #dd2476);
+            transition: 0.2s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+        }
+
+        .footer {
+            margin-top: 18px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+        <div class="badge">📥 Secure Download Portal</div>
+
+        <h2>Secure File Download</h2>
+        <p class="subtitle">Download is protected with OTP, Session Lock & Expiry</p>
+
+        <div class="file-box">
+            <p><b>File Name:</b> {{ filename }}</p>
+        </div>
+
+        <div class="timer">
+            ⏳ Link expires in: <span id="countdown"></span>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">⬇ Download File</button>
+        </form>
+
+        <div class="footer">
+            © 2026 SecureShare | Protected File Transfer System
+        </div>
+
+    </div>
+
+<script>
+    let seconds = parseInt("{{ remaining_seconds }}");
+
+    function updateTimer() {
+        if (seconds <= 0) {
+            document.getElementById("countdown").innerHTML = "Expired";
+            return;
+        }
+
+        let min = Math.floor(seconds / 60);
+        let sec = seconds % 60;
+
+        document.getElementById("countdown").innerHTML =
+            min + " min " + sec + " sec";
+
+        seconds--;
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>

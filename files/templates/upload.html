@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureShare - Upload</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 35px;
+            width: 460px;
+            border-radius: 18px;
+            box-shadow: 0px 0px 30px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 18px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(to right, #2563eb, #38bdf8);
+            transition: 0.2s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .link-box {
+            margin-top: 22px;
+            padding: 18px;
+            border-radius: 14px;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+        }
+
+        .link-box h3 {
+            margin: 0;
+            font-size: 17px;
+            color: #86efac;
+        }
+
+        .link-box p {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #dcfce7;
+        }
+
+        .link-box input {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .btn-copy {
+            margin-top: 12px;
+            background: linear-gradient(to right, #22c55e, #4ade80);
+        }
+
+        .btn-copy:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .open-link {
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .open-link a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .open-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+        <div style="text-align:center;">
+            <div class="badge">🔐 SecureShare System</div>
+        </div>
+
+        <h2>Secure File Share</h2>
+        <p class="subtitle">Upload files securely using OTP, Expiry & Download Limits</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Select File</label>
+            <input type="file" name="file" required>
+
+            <label>Receiver Email</label>
+            <input type="email" name="receiver_email" placeholder="receiver@gmail.com" required>
+
+            <label>Expiry Time (Minutes)</label>
+            <input type="number" name="expiry" value="10" min="1" required>
+
+            <label>Max Downloads Allowed</label>
+            <input type="number" name="max_downloads" value="1" min="1" required>
+
+            <button type="submit">⬆ Upload & Generate Secure Link</button>
+        </form>
+
+        {% if file_url %}
+        <div class="link-box">
+            <h3>✅ File Uploaded Successfully</h3>
+            <p><b>Download Link:</b></p>
+
+            <input type="text" id="linkBox" value="http://127.0.0.1:8000{{ file_url }}" readonly>
+
+            <button class="btn-copy" type="button" onclick="copyLink()">📋 Copy Link</button>
+
+            <div class="open-link">
+                <a href="{{ file_url }}" target="_blank">🔗 Open Download Page</a>
+            </div>
+        </div>
+
+        <script>
+            function copyLink() {
+                let copyText = document.getElementById("linkBox");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                navigator.clipboard.writeText(copyText.value);
+                alert("✅ Link Copied Successfully!");
+            }
+        </script>
+        {% endif %}
+
+        <div class="footer">
+            © 2026 SecureShare | Designed for Secure Data Transfer
+        </div>
+
+    </div>
+</body>
+</html>
