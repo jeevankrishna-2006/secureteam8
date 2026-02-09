@@ -217,6 +217,7 @@ def download_file(request, token):
     })
 
 
+
 @login_required
 def analytics(request):
     total_files = SharedFile.objects.filter(uploader=request.user).count()
