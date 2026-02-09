@@ -187,7 +187,8 @@
             <h3>✅ File Uploaded Successfully</h3>
             <p><b>Download Link:</b></p>
 
-            <input type="text" id="linkBox" value="http://127.0.0.1:8000{{ file_url }}" readonly>
+            <input type="text" id="linkBox" value="{{ request.scheme }}://{{ request.get_host }}{{ file_url }}"
+ readonly>
 
             <button class="btn-copy" type="button" onclick="copyLink()">📋 Copy Link</button>
 
