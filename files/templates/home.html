@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureShare - Advanced Secure File Transfer</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e293b);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            color: white;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav a {
+            color: #38bdf8;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px 100px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 650px;
+            margin: auto;
+            color: #cbd5e1;
+        }
+
+        .buttons {
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            margin: 12px;
+            border-radius: 35px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            transition: 0.3s ease;
+        }
+
+        .primary {
+            background: linear-gradient(to right, #2563eb, #38bdf8);
+            color: white;
+        }
+
+        .primary:hover {
+            transform: scale(1.05);
+        }
+
+        .secondary {
+            border: 2px solid #38bdf8;
+            color: #38bdf8;
+        }
+
+        .secondary:hover {
+            background: rgba(56,189,248,0.15);
+        }
+
+        .features {
+            padding: 80px 50px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 35px;
+        }
+
+        .card {
+            width: 300px;
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.15);
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🔐 SecureShare</div>
+    <div class="nav">
+        <a href="/login/">Login</a>
+        <a href="/signup/">Signup</a>
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Next-Level Secure File Sharing</h1>
+    <p>
+        Transfer files securely with OTP authentication, encryption, session locking,
+        IP validation, expiry control, and real-time analytics monitoring.
+    </p>
+
+    <div class="buttons">
+        <a href="/signup/" class="btn primary">Get Started</a>
+        <a href="/login/" class="btn secondary">Login</a>
+    </div>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <h3>🔐 AES Encryption</h3>
+        <p>Files are encrypted before storage and decrypted only during secure download.</p>
+    </div>
+
+    <div class="card">
+        <h3>📩 OTP Protected</h3>
+        <p>Email-based OTP ensures only authorized receivers can access the file.</p>
+    </div>
+
+    <div class="card">
+        <h3>🌍 Session & IP Lock</h3>
+        <p>Prevents unauthorized sharing by binding access to verified device.</p>
+    </div>
+
+    <div class="card">
+        <h3>⏳ Expiry & Limits</h3>
+        <p>Set time-based expiration and download limits for full control.</p>
+    </div>
+
+    <div class="card">
+        <h3>📊 Smart Analytics</h3>
+        <p>Track downloads with sender username, IP address and timestamps.</p>
+    </div>
+
+    <div class="card">
+        <h3>🚀 Enterprise Ready</h3>
+        <p>Designed with secure architecture and scalable backend implementation.</p>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 SecureShare | Advanced Secure Transfer System <br>
+    Developed by Team SecureShare
+</footer>
+
+</body>
+</html>

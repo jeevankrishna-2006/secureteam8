@@ -15,6 +15,10 @@ from .models import SharedFile, DownloadLog
 from .utils import encrypt_file, decrypt_file
 
 
+
+def home(request):
+    return render(request, "home.html")
+
 # -------------------------
 # AUTHENTICATION
 # -------------------------
