@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,6 +86,45 @@
             font-weight: bold;
             text-decoration: none;
         }
+        img {
+    transition: 0.2s ease-in-out;
+}
+img:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+.input-group {
+    position: relative;
+    margin-top: 18px;
+}
+
+.input-group input {
+    width: 90%;
+    padding: 12px 45px 12px 14px;  /* extra right padding for icon */
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.eye-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: 0.2s ease-in-out;
+}
+
+.eye-icon:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
 
         a:hover {
             text-decoration: underline;
@@ -119,7 +159,14 @@
         <form method="POST">
             {% csrf_token %}
             <input type="text" name="username" placeholder="Enter Username" required>
-            <input type="password" name="password" placeholder="Enter Password" required>
+           <div class="input-group">
+    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+
+    <img id="toggleIcon"
+         src="{% static 'images/hide.png' %}"
+         onclick="togglePassword()"
+         class="eye-icon">
+</div>
 
             <button type="submit">➡ Login</button>
         </form>
@@ -137,5 +184,19 @@
         </div>
 
     </div>
+   <script>
+function togglePassword() {
+    let input = document.getElementById("password");
+    let icon = document.getElementById("toggleIcon");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.src = "{% static 'images/view.png' %}";
+    } else {
+        input.type = "password";
+        icon.src = "{% static 'images/hide.png' %}";
+    }
+}
+</script>
 </body>
 </html>

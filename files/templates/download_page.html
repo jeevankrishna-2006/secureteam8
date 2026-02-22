@@ -25,27 +25,14 @@
             text-align: center;
         }
 
-        h2 {
-            margin-bottom: 8px;
-            font-size: 25px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: #cbd5e1;
-            margin-bottom: 22px;
-        }
-
-        .file-box {
+        .error-box {
             margin-top: 15px;
             padding: 14px;
             border-radius: 14px;
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.15);
-            font-size: 14px;
-            color: #e2e8f0;
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            color: #ff4d4d;
+            font-weight: bold;
         }
 
         .timer {
@@ -73,25 +60,9 @@
             transition: 0.2s ease-in-out;
         }
 
-        button:hover {
-            transform: scale(1.02);
-            opacity: 0.95;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 6px 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            color: #e2e8f0;
-            margin-bottom: 12px;
-        }
-
-        .footer {
-            margin-top: 18px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.55);
+        button:disabled {
+            background: gray;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -99,50 +70,169 @@
 <body>
     <div class="box">
 
-        <div class="badge">📥 Secure Download Portal</div>
-
         <h2>Secure File Download</h2>
-        <p class="subtitle">Download is protected with OTP, Session Lock & Expiry</p>
 
-        <div class="file-box">
+        {% if error_message %}
+            <div class="error-box">
+                {{ error_message }}
+            </div>
+        {% else %}
+
             <p><b>File Name:</b> {{ filename }}</p>
-        </div>
 
-        <div class="timer">
-            ⏳ Link expires in: <span id="countdown"></span>
-        </div>
+            {% if not disable_timer %}
+            <div class="timer">
+                ⏳ Link expires in: <span id="countdown"></span>
+            </div>
+            {% endif %}
 
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit">⬇ Download File</button>
-        </form>
+            <form method="POST">
+    {% csrf_token %}
+    <button type="submit">⬇ Download File</button>
+</form>
+            </form>
 
-        <div class="footer">
-            © 2026 SecureShare | Protected File Transfer System
-        </div>
+        {% endif %}
 
     </div>
-
+<div style="
+position:fixed;
+bottom:15px;
+right:20px;
+opacity:0.15;
+font-size:18px;
+font-weight:bold;
+color:white;">
+{{ request.session.verified_token }}
+</div>
 <script>
-    let seconds = parseInt("{{ remaining_seconds }}");
+    let disableTimer = "{{ disable_timer }}" === "True";
+    let seconds = parseInt("{{ remaining_seconds|default:0 }}");
 
-    function updateTimer() {
-        if (seconds <= 0) {
-            document.getElementById("countdown").innerHTML = "Expired";
-            return;
+    if (!disableTimer) {
+        function updateTimer() {
+            if (seconds <= 0) {
+                document.getElementById("countdown").innerHTML = "Expired";
+                return;
+            }
+
+            let min = Math.floor(seconds / 60);
+            let sec = seconds % 60;
+
+            document.getElementById("countdown").innerHTML =
+                min + " min " + sec + " sec";
+
+            seconds--;
         }
 
-        let min = Math.floor(seconds / 60);
-        let sec = seconds % 60;
-
-        document.getElementById("countdown").innerHTML =
-            min + " min " + sec + " sec";
-
-        seconds--;
+        updateTimer();
+        setInterval(updateTimer, 1000);
     }
+    // Disable right click
+document.addEventListener("contextmenu", e => e.preventDefault());
 
-    updateTimer();
-    setInterval(updateTimer, 1000);
+// Blur when tab inactive
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        document.body.style.filter = "blur(20px)";
+    } else {
+        document.body.style.filter = "none";
+    }
+});
+
+// DevTools detection
+setInterval(function() {
+    if (window.outerHeight - window.innerHeight > 150) {
+        document.body.innerHTML = "<h1>🚫 DevTools Detected. Access Blocked.</h1>";
+    }
+}, 1000);
+</script>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* -----------------------------
+       1. Disable Right Click
+    ----------------------------- */
+    document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    /* -----------------------------
+       2. Disable Keyboard Shortcuts
+    ----------------------------- */
+    document.addEventListener("keydown", function (e) {
+
+        // F12
+        if (e.key === "F12") {
+            e.preventDefault();
+        }
+
+        // Ctrl+Shift+I
+        if (e.ctrlKey && e.shiftKey && e.key === "I") {
+            e.preventDefault();
+        }
+
+        // Ctrl+Shift+J
+        if (e.ctrlKey && e.shiftKey && e.key === "J") {
+            e.preventDefault();
+        }
+
+        // Ctrl+U (view source)
+        if (e.ctrlKey && e.key === "u") {
+            e.preventDefault();
+        }
+    });
+
+    /* -----------------------------
+       3. Blur When Tab Inactive
+    ----------------------------- */
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            document.body.style.filter = "blur(30px)";
+        } else {
+            document.body.style.filter = "none";
+        }
+    });
+
+    /* -----------------------------
+       4. Strong DevTools Detection
+    ----------------------------- */
+    setInterval(function () {
+
+        const widthThreshold = window.outerWidth - window.innerWidth > 120;
+        const heightThreshold = window.outerHeight - window.innerHeight > 120;
+
+        if (widthThreshold || heightThreshold) {
+
+            document.body.innerHTML = `
+                <div style="
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    height:100vh;
+                    background:#111;
+                    color:red;
+                    font-size:28px;
+                    font-weight:bold;">
+                    🚫 Developer Tools Detected. Access Blocked.
+                </div>
+            `;
+        }
+
+    }, 500);
+
+});
+</script>
+<script>
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        document.body.style.opacity = "0.1";
+        document.body.style.transition = "0.3s";
+    } else {
+        document.body.style.opacity = "1";
+    }
+});
 </script>
 
 </body>

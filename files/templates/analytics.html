@@ -180,6 +180,7 @@
 
     <table>
         <tr>
+            <th>Sender Username</th>
             <th>Email</th>
             <th>File Token</th>
             <th>IP Address</th>
@@ -188,6 +189,7 @@
 
         {% for log in logs %}
         <tr>
+            <td>{{ log.sender_username }}</td>
             <td>{{ log.email }}</td>
             <td class="token-box">{{ log.file_token }}</td>
             <td>{{ log.ip_address }}</td>

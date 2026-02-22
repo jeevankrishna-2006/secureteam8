@@ -1,6 +1,7 @@
 __pycache__/
-db.sqlite3
 *.pyc
-env/
+db.sqlite3
+.env
+*.log
+media/
 venv/
-.DS_Store
